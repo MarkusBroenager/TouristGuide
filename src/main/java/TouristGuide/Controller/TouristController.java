@@ -1,5 +1,6 @@
 package TouristGuide.Controller;
 
+import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Service.TouristService;
 import org.springframework.http.HttpStatus;
@@ -28,17 +29,19 @@ public class TouristController {
     }
 
     @GetMapping("/attractions/{name}")
-    public ResponseEntity<TouristAttraction> getAttractionsName(Model model, @PathVariable String name) {
+    public String getAttractionsName(Model model, @PathVariable String name) {
         TouristAttraction attractionName = touristService.getAttractionByName(name);
         model.addAttribute("attractionByName", attractionName);
-        return new ResponseEntity<>(attractionName, HttpStatus.OK);
+        return "attractionName";
     }
 
     @GetMapping("/attractions/{name}/tags")
-    public ResponseEntity<TouristAttraction> getAttractionsNameTags(Model model, @PathVariable String name) {
+    public String getAttractionNameTags(Model model, @PathVariable String name) {
         TouristAttraction attractionName = touristService.getAttractionByName(name);
+        Tags[] attractionTags = touristService.getAttractionNameTags(attractionName);
         model.addAttribute("attractionByName", attractionName);
-        return new ResponseEntity<>(attractionName, HttpStatus.OK);
+        model.addAttribute("attractions", attractionTags);
+        return "tags";
     }
 
     @GetMapping("/attractions/{name}/edit")
@@ -49,9 +52,9 @@ public class TouristController {
     }
 
     @GetMapping("/attractions/add")
-    public ResponseEntity<TouristAttraction> addAttraction(@RequestBody TouristAttraction touristAttraction) {
+    public String addAttraction(@RequestBody TouristAttraction touristAttraction) {
         TouristAttraction newTouristAttraction = touristService.addAttraction(touristAttraction);
-        return new ResponseEntity<> (newTouristAttraction, HttpStatus.CREATED);
+        return "addForm";
     }
 
     @PostMapping("/attractions/save")

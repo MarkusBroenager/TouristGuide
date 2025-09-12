@@ -1,5 +1,6 @@
 package TouristGuide.Service;
 
+import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Repository.TouristRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class TouristService {
 
     public TouristAttraction getAttractionByName (String name) {
         return touristRepository.getAttractionByName(name);
+    }
+
+    public Tags[] getAttractionNameTags (TouristAttraction touristAttraction) {
+        return touristRepository.getAttractionNameTags(touristAttraction);
     }
 
     public TouristAttraction addAttraction (TouristAttraction touristAttraction) {

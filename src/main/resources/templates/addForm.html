@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${TouristAttraction}" method="post">
+    <h1>Tilføj turistattraktion</h1>
+    <input type="text"/>
+    <select th:field="*{selectedValue}">
+            <option value="">--Please select--</option>
+            <option th:each="value : ${allValues}" th:value="${value}" th:text="${value}"></option>
+    </select>
+    <div th:each="value : ${allValues}">
+            <input type="checkbox" th:field="*{selectedValues}" th:value="${value}" th:text="${value}" /></div>
+    <button type="submit">Submit</button>
+
+<button type="button" onclick="location.href='/attractions/{name}/tags'">Ok</button>
+<button type="button" onclick="location.href='/attractions/{name}/tags'">Fortryd</button>
+
+</body>
+</html>

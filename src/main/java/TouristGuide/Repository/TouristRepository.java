@@ -47,13 +47,13 @@ public class TouristRepository {
         return touristAttraction;
     }
 
-    public List<String> getCities () {
-
-    }
-
-    public List<String> getTags () {
-
-    }
+//    public List<String> getCities () {
+//
+//    }
+//
+//    public List<String> getTags () {
+//
+//    }
 
     public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
         for (TouristAttraction a: TAList) {

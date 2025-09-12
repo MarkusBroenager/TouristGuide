@@ -19,7 +19,7 @@
     <tr th:each="touristattraction: ${attractions}">
         <td th:text="${touristattraction.name}"></td>
         <td th:text="${touristattraction.description}"></td>
-        <td><button type="button" onclick="location.href='/attractions/{name}/tags'">Tags</button></td>
+        <td> <a th:href="@{/attractions/{name}/tags(name=${touristattraction.name})}" class="edit-btn">Show tags</a></td>
     </tr>
     </tbody>
 </table>

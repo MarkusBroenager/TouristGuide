@@ -1,17 +1,18 @@
 package TouristGuide.Model;
 import TouristGuide.Model.Tags;
 import java.lang.reflect.Array;
+import java.util.List;
 
 public class TouristAttraction {
     private String name;
     private String description;
-    private String by;
+    private Cities city;
     private final Tags[] tags;
 
-    public TouristAttraction(String name, String description, String by, Tags[] tags) {
+    public TouristAttraction(String name, String description, Cities city, Tags[] tags) {
         this.name = name;
         this.description = description;
-        this.by = by;
+        this.city = city;
         this.tags = tags;
     }
 
@@ -31,15 +32,17 @@ public class TouristAttraction {
         this.description = description;
     }
 
-    public void setBy(String by) {
-        this.by = by;
+    public void setCity(Cities city) {
+        this.city = city;
     }
 
-    public String getBy() {
-        return by;
+    public Cities getCity() {
+        return city;
     }
 
     public Tags[] getTags () {
         return tags;
     }
+
+
 }

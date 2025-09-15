@@ -6,19 +6,30 @@
     <title>Title</title>
 </head>
 <body>
-<form th:object="${TouristAttraction}" method="post">
+//Jeg henter objektet her.
+<form th:object="${newAttraction}" method="post">
     <h1>Tilføj turistattraktion</h1>
-    <input type="text"/>
-    <select th:field="*{selectedValue}">
+
+    //Jeg tror at man kan angive navn og beskrivelse på denne måde.
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name">
+
+    <label for="description">Full Name</label>
+    <input type="text" id="description" name="description">
+
+    //Jeg sidder fast her (har nok noget at gøre med getMapping i Controller).
+    <select th:field="*{optionCities.Cities}">
             <option value="">--Please select--</option>
-            <option th:each="value : ${allValues}" th:value="${value}" th:text="${value}"></option>
+            <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}"></option>
     </select>
-    <div th:each="value : ${allValues}">
-            <input type="checkbox" th:field="*{selectedValues}" th:value="${value}" th:text="${value}" /></div>
+
+    <div th:each="value : ${optionTags}">
+            <input type="checkbox" th:field="*{optionTags.Tags}" th:value="${OptionTags.tags}" th:text="${OptionTags.tags}" /></div>
     <button type="submit">Submit</button>
 
 <button type="button" onclick="location.href='/attractions/{name}/tags'">Ok</button>
 <button type="button" onclick="location.href='/attractions/{name}/tags'">Fortryd</button>
+</form>
 
 </body>
 </html>

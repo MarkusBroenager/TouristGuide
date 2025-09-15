@@ -1,5 +1,6 @@
 package TouristGuide.Repository;
 
+import TouristGuide.Model.Cities;
 import TouristGuide.Model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
@@ -10,17 +11,28 @@ import TouristGuide.Model.Tags;
 @Repository
 public class TouristRepository {
     List<TouristAttraction> TAList = new ArrayList<TouristAttraction>();
+    List<Cities> cities = new ArrayList<Cities>();
+    List<Tags> tags = new ArrayList<Tags>();
 
     public TouristRepository () {
-        TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", "Glostrup", new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
-        TouristAttraction TA2 = new TouristAttraction("Amusement Park", "Fun with Roller coasters", "København", new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
-        TouristAttraction TA3 = new TouristAttraction("Museum", "Enjoy the Culture", "København", new Tags[]{Tags.Adult, Tags.Culture});
-        TouristAttraction TA4 = new TouristAttraction("Royal Garden", "Enjoy the Beauty", "København", new Tags[]{Tags.Adult, Tags.Children, Tags.Culture});
+        TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
+        TouristAttraction TA2 = new TouristAttraction("Amusement Park", "Fun with Roller coasters", Cities.Copenhagen, new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
+        TouristAttraction TA3 = new TouristAttraction("Museum", "Enjoy the Culture", Cities.Copenhagen, new Tags[]{Tags.Adult, Tags.Culture});
+        TouristAttraction TA4 = new TouristAttraction("Royal Garden", "Enjoy the Beauty",Cities.Copenhagen , new Tags[]{Tags.Adult, Tags.Children, Tags.Culture});
 
         TAList.add(TA1);
         TAList.add(TA2);
         TAList.add(TA3);
         TAList.add(TA4);
+
+        cities.add(Cities.Copenhagen);
+        cities.add(Cities.Glostrup);
+
+        tags.add(Tags.Active);
+        tags.add(Tags.Culture);
+        tags.add(Tags.Entertainment);
+        tags.add(Tags.Adult);
+        tags.add(Tags.Children);
     }
 
     public List<TouristAttraction> getAttractions () {
@@ -47,12 +59,12 @@ public class TouristRepository {
         return touristAttraction;
     }
 
-    public List<String> getCities () {
-
+    public List<Cities> getCities () {
+        return cities;
     }
 
-    public List<String> getTags () {
-
+    public List<Tags> getTags () {
+        return tags;
     }
 
     public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {

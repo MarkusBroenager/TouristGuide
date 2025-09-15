@@ -1,5 +1,6 @@
 package TouristGuide.Controller;
 
+import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Service.TouristService;
@@ -45,28 +46,36 @@ public class TouristController {
     }
 
     @GetMapping("/attractions/{name}/edit")
-    public ResponseEntity<TouristAttraction> getAttractionsNameEdit(Model model, @PathVariable String name) {
+    public String getAttractionsNameEdit(Model model, @PathVariable String name) {
         TouristAttraction attractionName = touristService.getAttractionByName(name);
         model.addAttribute("attractionByName", attractionName);
-        return new ResponseEntity<>(attractionName, HttpStatus.OK);
+        return "updateAttraction";
     }
 
+    //Ser det korrekt ud?
     @GetMapping("/attractions/add")
-    public String addAttraction(@RequestBody TouristAttraction touristAttraction) {
-        TouristAttraction newTouristAttraction = touristService.addAttraction(touristAttraction);
+    public String addAttraction(@RequestBody String name, String description, Cities city, Tags[] tags, List<Tags> optionTags, List<Cities> optionCities, Model model) {
+        TouristAttraction newAttraction = new TouristAttraction(name, description, city, tags);
+        optionTags = touristService.getTags(optionTags);
+        optionCities = touristService.getCities(optionCities);
+        model.addAttribute("newAttraction", newAttraction);
+        model.addAttribute("optionTags", optionTags);
+        model.addAttribute("optionCities", optionCities);
         return "addForm";
     }
 
     @PostMapping("/attractions/save")
-    public ResponseEntity<TouristAttraction> saveAttraction(@PathVariable String name) {
-        TouristAttraction removedTouristAttraction = touristService.deleteAttractionByName(name);
-        return new ResponseEntity<> (removedTouristAttraction, HttpStatus.OK);
+    public String saveAttraction(@ModelAttribute TouristAttraction newAttraction) {
+        String selectedValue = newAttraction.getSelectedValue();
+        String selectedValues = newAttraction.getSelectedValues();
+
+        return "redirect:/attractions";
     }
 
     @PostMapping("/attractions/update")
-    public ResponseEntity<TouristAttraction> updateAttractions(@RequestBody TouristAttraction touristAttraction) {
+    public String updateAttractions(@RequestBody TouristAttraction touristAttraction) {
         TouristAttraction updatedAttraction = touristService.updateTouristAttraction(touristAttraction);
-        return new ResponseEntity<> (updatedAttraction, HttpStatus.OK);
+        return "redirect:/attractions";
     }
 
     @PostMapping("/attractions/delete/{name}")

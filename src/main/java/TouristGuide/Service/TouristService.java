@@ -1,5 +1,6 @@
 package TouristGuide.Service;
 
+import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Repository.TouristRepository;
@@ -30,6 +31,14 @@ public class TouristService {
     public TouristAttraction addAttraction (TouristAttraction touristAttraction) {
         touristRepository.addAttraction(touristAttraction);
         return touristAttraction;
+    }
+
+    public List<Cities> getCities (List<Cities> cities) {
+        return touristRepository.getCities();
+    }
+
+    public List<Tags> getTags (List<Tags> tags) {
+        return touristRepository.getTags();
     }
 
     public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {

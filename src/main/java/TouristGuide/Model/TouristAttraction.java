@@ -7,8 +7,8 @@ import java.util.List;
 public class TouristAttraction {
     private String name;
     private String description;
-    private final Cities city;
-    private final List<Tags> tags;
+    private Cities city;
+    private List<Tags> tags;
 
     public TouristAttraction(String name, String description, Cities city, List<Tags> tags) {
         this.name = name;
@@ -37,8 +37,16 @@ public class TouristAttraction {
         return city;
     }
 
+    public void setCity(Cities city) {
+        this.city = city;
+    }
+
     public List<Tags> getTags () {
         return tags;
+    }
+
+    public void setTags (List<Tags> tags) {
+        this.tags = tags;
     }
 
 

@@ -68,9 +68,11 @@ public class TouristRepository {
     }
 
     public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
-        for (TouristAttraction a: TAList) {
-            if (a.getName().equals(touristAttraction.getName())) {
-                a.setDescription(touristAttraction.getDescription());
+        for (TouristAttraction attraction: TAList) {
+            if (attraction.getName().equals(touristAttraction.getName())) {
+                attraction.setDescription(touristAttraction.getDescription());
+                attraction.setCity(touristAttraction.getCity());
+                attraction.setTags(touristAttraction.getTags());
             }
         }
         return touristAttraction;

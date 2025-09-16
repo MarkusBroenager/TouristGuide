@@ -10,13 +10,13 @@
 <form th:object="${newAttraction}" method="post">
     <h1>Tilføj turistattraktion</h1>
 
-    <label for="name">Full Name</label>
+    <label for="name">Fulde navn</label>
     <input type="text" id="name" th:field="*{name}" required>
 
-    <label for="description">Full Name</label>
+    <label for="description">Beskrivelse</label>
     <input type="text" id="description" th:field="*{description}" required>
 
-    <label for="city">City</label>
+    <label for="city">By</label>
     <select name="city" id="city" th:field="*{city}">
             <option value="">--Please select--</option>
             <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}">Glostrup</option>

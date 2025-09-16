@@ -13,12 +13,14 @@
     <tr>
         <th>Navn</th>
         <th>Beskrivelse</th>
+        <th>By</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="touristattraction: ${attractions}">
         <td th:text="${touristattraction.name}"></td>
         <td th:text="${touristattraction.description}"></td>
+        <td th:text="${touristattraction.city}"></td>
         <td><button type="button" onclick="location.href='/attractions/{name}/edit'">Opdater</button></td>
         <td><button type="button" onclick="location.href='/attractions/{name}/delete'">Slet</button></td>
         <td><button type="button" onclick="location.href='/attractions/{name}/tags'">Tags</button></td>

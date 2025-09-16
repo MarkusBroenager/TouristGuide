@@ -46,9 +46,13 @@ public class TouristController {
     }
 
     @GetMapping("/attractions/{name}/edit")
-    public String getAttractionsNameEdit(Model model, @PathVariable String name) {
+    public String getAttractionsNameEdit(Model model, @PathVariable String name, List<Cities> optionCities, List<Tags> optionTags) {
         TouristAttraction attractionName = touristService.getAttractionByName(name);
         model.addAttribute("attractionByName", attractionName);
+        optionTags = touristService.getTags(optionTags);
+        optionCities = touristService.getCities(optionCities);
+        model.addAttribute("optionTags", optionTags);
+        model.addAttribute("optionCities", optionCities);
         return "updateAttraction";
     }
 
@@ -70,15 +74,16 @@ public class TouristController {
     }
 
     @PostMapping("/attractions/update")
-    public String updateAttractions(@RequestBody TouristAttraction touristAttraction) {
+    public String updateAttractions(TouristAttraction touristAttraction) {
         TouristAttraction updatedAttraction = touristService.updateTouristAttraction(touristAttraction);
+        touristService.addAttraction(updatedAttraction);
         return "redirect:/attractions";
     }
 
     @PostMapping("/attractions/delete/{name}")
-    public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name) {
+    public String deleteAttraction(@PathVariable String name) {
         TouristAttraction removedTouristAttraction = touristService.deleteAttractionByName(name);
-        return new ResponseEntity<> (removedTouristAttraction, HttpStatus.OK);
+        return "redirect:/attractions";
     }
 
 }

@@ -6,30 +6,39 @@
     <title>Title</title>
 </head>
 <body>
-//Jeg henter objektet her.
+
 <form th:object="${newAttraction}" method="post">
     <h1>Tilføj turistattraktion</h1>
 
-    //Jeg tror at man kan angive navn og beskrivelse på denne måde.
     <label for="name">Full Name</label>
-    <input type="text" id="name" name="name">
+    <input type="text" id="name" th:field="*{name}" required>
 
     <label for="description">Full Name</label>
-    <input type="text" id="description" name="description">
+    <input type="text" id="description" th:field="*{description}" required>
 
-    //Jeg sidder fast her (har nok noget at gøre med getMapping i Controller).
-    <select th:field="*{optionCities.Cities}">
+    <label for="city">City</label>
+    <select name="city" id="city" th:field="*{city}">
             <option value="">--Please select--</option>
-            <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}"></option>
+            <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}">Glostrup</option>
+            <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}">Copenhagen</option>
     </select>
 
     <div th:each="value : ${optionTags}">
-            <input type="checkbox" th:field="*{optionTags.Tags}" th:value="${OptionTags.tags}" th:text="${OptionTags.tags}" /></div>
-    <button type="submit">Submit</button>
+        <input type="checkbox" name="active" id="active" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
+        <label for="active">Active</label>
+        <input type="checkbox" name="entertainment" id="entertainment" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
+        <label for="entertainment">Entertainment</label>
+        <input type="checkbox" name="culture" id="culture" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
+        <label for="culture">Culture</label>
+        <input type="checkbox" name="adult" id="adult" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
+        <label for="adult">Adult</label>
+        <input type="checkbox" name="children" id="children" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
+        <label for="children">Children</label>
+    </div>
 
+    <button type="submit">Opret</button>
+</form>
 <button type="button" onclick="location.href='/attractions/{name}/tags'">Ok</button>
 <button type="button" onclick="location.href='/attractions/{name}/tags'">Fortryd</button>
-</form>
-
 </body>
 </html>

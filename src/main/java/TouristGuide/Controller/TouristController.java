@@ -39,7 +39,7 @@ public class TouristController {
     @GetMapping("/attractions/{name}/tags")
     public String getAttractionNameTags(Model model, @PathVariable String name) {
         TouristAttraction attractionName = touristService.getAttractionByName(name);
-        Tags[] attractionTags = touristService.getAttractionNameTags(attractionName);
+        List<Tags> attractionTags = touristService.getAttractionNameTags(attractionName);
         model.addAttribute("attractionByName", attractionName);
         model.addAttribute("attractions", attractionTags);
         return "tags";
@@ -52,9 +52,8 @@ public class TouristController {
         return "updateAttraction";
     }
 
-    //Ser det korrekt ud?
     @GetMapping("/attractions/add")
-    public String addAttraction(@RequestBody String name, String description, Cities city, Tags[] tags, List<Tags> optionTags, List<Cities> optionCities, Model model) {
+    public String addAttraction(String name, String description, Cities city, List<Tags> tags, List<Tags> optionTags, List<Cities> optionCities, Model model) {
         TouristAttraction newAttraction = new TouristAttraction(name, description, city, tags);
         optionTags = touristService.getTags(optionTags);
         optionCities = touristService.getCities(optionCities);
@@ -66,9 +65,7 @@ public class TouristController {
 
     @PostMapping("/attractions/save")
     public String saveAttraction(@ModelAttribute TouristAttraction newAttraction) {
-        String selectedValue = newAttraction.getSelectedValue();
-        String selectedValues = newAttraction.getSelectedValues();
-
+        touristService.addAttraction(newAttraction);
         return "redirect:/attractions";
     }
 

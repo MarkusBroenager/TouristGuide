@@ -15,10 +15,10 @@ public class TouristRepository {
     List<Tags> tags = new ArrayList<Tags>();
 
     public TouristRepository () {
-        TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
-        TouristAttraction TA2 = new TouristAttraction("Amusement Park", "Fun with Roller coasters", Cities.Copenhagen, new Tags[]{Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active});
-        TouristAttraction TA3 = new TouristAttraction("Museum", "Enjoy the Culture", Cities.Copenhagen, new Tags[]{Tags.Adult, Tags.Culture});
-        TouristAttraction TA4 = new TouristAttraction("Royal Garden", "Enjoy the Beauty",Cities.Copenhagen , new Tags[]{Tags.Adult, Tags.Children, Tags.Culture});
+        TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
+        TouristAttraction TA2 = new TouristAttraction("Amusement Park", "Fun with Roller coasters", Cities.Copenhagen, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
+        TouristAttraction TA3 = new TouristAttraction("Museum", "Enjoy the Culture", Cities.Copenhagen, List.of(Tags.Adult, Tags.Culture));
+        TouristAttraction TA4 = new TouristAttraction("Royal Garden", "Enjoy the Beauty",Cities.Copenhagen , List.of(Tags.Adult, Tags.Children, Tags.Culture));
 
         TAList.add(TA1);
         TAList.add(TA2);
@@ -39,8 +39,8 @@ public class TouristRepository {
         return TAList;
     }
 
-    public Tags[] getAttractionNameTags(TouristAttraction touristAttraction) {
-        Tags[] attractionTags = touristAttraction.getTags();
+    public List<Tags> getAttractionNameTags(TouristAttraction touristAttraction) {
+        List<Tags> attractionTags = touristAttraction.getTags();
         return attractionTags;
     }
 

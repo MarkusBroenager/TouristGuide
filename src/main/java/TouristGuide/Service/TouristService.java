@@ -24,7 +24,7 @@ public class TouristService {
         return touristRepository.getAttractionByName(name);
     }
 
-    public Tags[] getAttractionNameTags (TouristAttraction touristAttraction) {
+    public List<Tags> getAttractionNameTags (TouristAttraction touristAttraction) {
         return touristRepository.getAttractionNameTags(touristAttraction);
     }
 

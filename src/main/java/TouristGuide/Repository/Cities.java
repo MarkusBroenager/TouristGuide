@@ -1,6 +1,4 @@
-package TouristGuide.Model;
-
-import java.util.List;
+package TouristGuide.Repository;
 
 public enum Cities {
     Copenhagen,

@@ -1,7 +1,7 @@
 package TouristGuide.Service;
 
-import TouristGuide.Model.Cities;
-import TouristGuide.Model.Tags;
+import TouristGuide.Repository.Cities;
+import TouristGuide.Repository.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Repository.TouristRepository;
 import org.springframework.stereotype.Service;
@@ -33,19 +33,19 @@ public class TouristService {
         return touristAttraction;
     }
 
-    public List<Cities> getCities (List<Cities> cities) {
-        return touristRepository.getCities();
+    public List<Cities> getOptionCities () {
+        return touristRepository.getOptionCities();
     }
 
-    public List<Tags> getTags (List<Tags> tags) {
-        return touristRepository.getTags();
+    public List<Tags> getOptionTags () {
+        return touristRepository.getOptionTags();
     }
 
-    public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
-        return touristRepository.updateTouristAttraction(touristAttraction);
+    public void updateTouristAttraction (TouristAttraction touristAttraction) {
+        touristRepository.updateTouristAttraction(touristAttraction);
     }
 
-    public TouristAttraction deleteAttractionByName (String name) {
-        return touristRepository.deleteAttractionByName(name);
+    public void deleteAttractionByName (String name) {
+        touristRepository.deleteAttractionByName(name);
     }
 }

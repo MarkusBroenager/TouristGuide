@@ -1,4 +1,4 @@
-package TouristGuide.Model;
+package TouristGuide.Repository;
 
 public enum Tags {
     Active,

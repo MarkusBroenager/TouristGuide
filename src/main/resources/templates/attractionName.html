@@ -10,6 +10,8 @@
 <h1 th:text="${attractionByName.name}"></h1>
 <h2 th:text="${attractionByName.description}"></h2>
 
-<button type="button" onclick="location.href='/attractions/{name}/tags'">Tags</button>
+<a th:href="@{'/attractions/' + ${attractionByName.name} + '/tags'}">Tags</a>
+<a href="/">Hovedside</a>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
 package TouristGuide.Model;
-import TouristGuide.Model.Tags;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import TouristGuide.Repository.Cities;
+import TouristGuide.Repository.Tags;
+
 import java.util.List;
 
 public class TouristAttraction {
@@ -16,6 +16,8 @@ public class TouristAttraction {
         this.city = city;
         this.tags = tags;
     }
+
+    public TouristAttraction(){}
 
     public String getName() {
         return name;

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<form th:object="${attractionByName}" method="post">
+<form th:action="@{'/attractions/update'}" th:object="${attractionByName}" method="post">
     <h1>Opdater turistattraktion</h1>
 
     <label for="description">Beskrivelse</label>
@@ -16,28 +16,20 @@
     <label for="city">By</label>
     <select name="city" id="city" th:field="*{city}">
         <option value="">--Please select--</option>
-        <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}">Glostrup</option>
-        <option th:each="value : ${optionCities}" th:value="${optionCities}" th:text="${optionCities}">Copenhagen</option>
+        <option th:each="type : ${optionCities}" th:value="${type}" th:text="${type}"></option>
     </select>
 
     <label for="tags">Tags</label>
-    <div id="tags" th:each="value : ${optionTags}">
-        <input type="checkbox" name="active" id="active" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
-        <label for="active">Active</label>
-        <input type="checkbox" name="entertainment" id="entertainment" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
-        <label for="entertainment">Entertainment</label>
-        <input type="checkbox" name="culture" id="culture" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
-        <label for="culture">Culture</label>
-        <input type="checkbox" name="adult" id="adult" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
-        <label for="adult">Adult</label>
-        <input type="checkbox" name="children" id="children" th:field="*{tags}" th:value="${optionTags}" th:text="${optionTags}"/>
-        <label for="children">Children</label>
-    </div>
+    <fieldset id="tags">
+        <div th:each="option : ${optionTags}">
+            <label>
+                <input type="checkbox" th:field="*{tags}" th:value="${option}"/>
+            </label>
+        </div>
+    </fieldset>
 
     <button type="submit">Opdater</button>
+    <a th:href="@{/attractions}">Fortryd</a>
 </form>
-<button type="button" onclick="location.href='/attractions/{name}/tags'">Ok</button>
-<button type="button" onclick="location.href='/attractions/{name}/tags'">Fortryd</button>
-
 </body>
 </html>

@@ -1,18 +1,14 @@
 package TouristGuide.Repository;
 
-import TouristGuide.Model.Cities;
 import TouristGuide.Model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import TouristGuide.Model.Tags;
 
 @Repository
 public class TouristRepository {
-    List<TouristAttraction> TAList = new ArrayList<TouristAttraction>();
-    List<Cities> cities = new ArrayList<Cities>();
-    List<Tags> tags = new ArrayList<Tags>();
+    List<TouristAttraction> TAList = new ArrayList<>();
 
     public TouristRepository () {
         TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
@@ -24,15 +20,6 @@ public class TouristRepository {
         TAList.add(TA2);
         TAList.add(TA3);
         TAList.add(TA4);
-
-        cities.add(Cities.Copenhagen);
-        cities.add(Cities.Glostrup);
-
-        tags.add(Tags.Active);
-        tags.add(Tags.Culture);
-        tags.add(Tags.Entertainment);
-        tags.add(Tags.Adult);
-        tags.add(Tags.Children);
     }
 
     public List<TouristAttraction> getAttractions () {
@@ -54,20 +41,19 @@ public class TouristRepository {
         return touristAttraction;
     }
 
-    public TouristAttraction addAttraction (TouristAttraction touristAttraction) {
+    public void addAttraction (TouristAttraction touristAttraction) {
         TAList.add(touristAttraction);
-        return touristAttraction;
     }
 
-    public List<Cities> getCities () {
-        return cities;
+    public List<Cities> getOptionCities () {
+        return List.of(Cities.values());
     }
 
-    public List<Tags> getTags () {
-        return tags;
+    public List<Tags> getOptionTags () {
+        return List.of(Tags.values());
     }
 
-    public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
+    public  void updateTouristAttraction (TouristAttraction touristAttraction) {
         for (TouristAttraction attraction: TAList) {
             if (attraction.getName().equals(touristAttraction.getName())) {
                 attraction.setDescription(touristAttraction.getDescription());
@@ -75,18 +61,14 @@ public class TouristRepository {
                 attraction.setTags(touristAttraction.getTags());
             }
         }
-        return touristAttraction;
     }
 
-    public TouristAttraction deleteAttractionByName (String name) {
-        TouristAttraction touristAttraction = null;
-        for (int i = 0; i < TAList.size(); i++) {
-            if (name.equals(TAList.get(i).getName())) {
-                touristAttraction = TAList.get(i);
-                TAList.remove(touristAttraction);
+    public void deleteAttractionByName (String name) {
+        for (TouristAttraction attraction: TAList) {
+            if (name.equals(attraction.getName())) {
+                TAList.remove(attraction);
             }
         }
-        return touristAttraction;
     }
 
 }

@@ -1,7 +1,7 @@
 package TouristGuide.Service;
 
-import TouristGuide.Repository.Cities;
-import TouristGuide.Repository.Tags;
+import TouristGuide.Model.Cities;
+import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Repository.TouristRepository;
 import org.springframework.stereotype.Service;

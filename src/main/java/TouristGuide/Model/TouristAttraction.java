@@ -1,6 +1,4 @@
 package TouristGuide.Model;
-import TouristGuide.Repository.Cities;
-import TouristGuide.Repository.Tags;
 
 import java.util.List;
 

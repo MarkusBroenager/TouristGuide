@@ -23,7 +23,7 @@
         <td th:text="${touristattraction.city}"></td>
 
         <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/edit'}">Opdater</a></td>
-        <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/delete'}">Slet</a></td>
+        <td><a th:href="@{'/attractions/' + ${touristattraction.name}}">Slet på næste side</a></td>
         <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/tags'}">Tags</a></td>
 
     </tr>

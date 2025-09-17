@@ -7,8 +7,10 @@
 </head>
 <body>
 
-<form th:action="@{'/attractions/update'}" th:object="${attractionByName}" method="post">
+<form th:action="@{/attractions/update}" th:object="${attractionByName}"  method="post">
     <h1>Opdater turistattraktion</h1>
+
+    <input type="hidden" th:field="*{name}">
 
     <label for="description">Beskrivelse</label>
     <input type="text" id="description" th:field="*{description}" required>

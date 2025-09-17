@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public class TouristRepository {
     List<TouristAttraction> TAList = new ArrayList<>();
+    List<TouristAttraction> toRemove = new ArrayList<>();
 
     public TouristRepository () {
         TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
@@ -55,7 +56,7 @@ public class TouristRepository {
         return List.of(Tags.values());
     }
 
-    public  void updateTouristAttraction (TouristAttraction touristAttraction) {
+    public  TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
         for (TouristAttraction attraction: TAList) {
             if (attraction.getName().equals(touristAttraction.getName())) {
                 attraction.setDescription(touristAttraction.getDescription());
@@ -63,14 +64,16 @@ public class TouristRepository {
                 attraction.setTags(touristAttraction.getTags());
             }
         }
+        return touristAttraction;
     }
 
     public void deleteAttractionByName (String name) {
         for (TouristAttraction attraction: TAList) {
             if (name.equals(attraction.getName())) {
-                TAList.remove(attraction);
+                toRemove.add(attraction);
             }
         }
+        TAList.removeAll(toRemove);
     }
 
 }

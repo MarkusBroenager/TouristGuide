@@ -6,7 +6,6 @@ import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Service.TouristService;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -32,7 +31,7 @@ class TouristGuideApplicationTests {
 
     @Test
     void showAllAttractionsWorksAsExpectedOnEmpty() throws Exception {
-        List<TouristAttraction> attractions = new ArrayList<TouristAttraction>();
+        List<TouristAttraction> attractions = new ArrayList<>();
         when(touristService.getAttractions()).thenReturn(attractions);
 
         mockMvc.perform(get("/attractions"))

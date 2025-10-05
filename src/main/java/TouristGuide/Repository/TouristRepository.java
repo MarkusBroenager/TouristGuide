@@ -1,5 +1,6 @@
 package TouristGuide.Repository;
 
+import TouristGuide.Exceptions.TouristAttractionNotFoundException;
 import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
@@ -30,18 +31,17 @@ public class TouristRepository {
     }
 
     public List<Tags> getAttractionNameTags(TouristAttraction touristAttraction) {
-        List<Tags> attractionTags = touristAttraction.getTags();
-        return attractionTags;
+        return touristAttraction.getTags();
     }
 
-    public TouristAttraction getAttractionByName(String name) {
-        TouristAttraction touristAttraction = null;
-        for (int i = 0; i < TAList.size(); i++) {
-            if (name.equals(TAList.get(i).getName())) {
-                touristAttraction = TAList.get(i);
+    public TouristAttraction getAttractionByName(String name) throws TouristAttractionNotFoundException {
+        for (TouristAttraction attraction : TAList) {
+            if (name.equals(attraction.getName())) {
+                return attraction;
             }
         }
-        return touristAttraction;
+
+        return null;
     }
 
     public void addAttraction (TouristAttraction touristAttraction) {
@@ -75,5 +75,4 @@ public class TouristRepository {
         }
         TAList.removeAll(toRemove);
     }
-
 }

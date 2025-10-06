@@ -1,5 +1,6 @@
 package TouristGuide.Controller;
 
+import TouristGuide.Exceptions.TouristAttractionNotFoundException;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
 import TouristGuide.Service.TouristService;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("attractions")
 public class TouristController {
     TouristService touristService;
+
     public TouristController(TouristService touristService) {
         this.touristService = touristService;
     }
@@ -22,30 +24,29 @@ public class TouristController {
     public String getAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAttractions();
         model.addAttribute("attractions", attractions);
-
         return "attractionList";
     }
 
     @GetMapping("{name}")
-    public String getAttractionsName(Model model, @PathVariable String name) {
-        TouristAttraction attractionName = touristService.getAttractionByName(name);
-        model.addAttribute("attractionByName", attractionName);
+    public String getAttractionsName(Model model, @PathVariable String name) throws TouristAttractionNotFoundException {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        model.addAttribute("attractionByName", attraction);
         return "attractionName";
     }
 
     @GetMapping("{name}/tags")
-    public String getAttractionNameTags(Model model, @PathVariable String name) {
-        TouristAttraction attractionName = touristService.getAttractionByName(name);
-        List<Tags> attractionTags = touristService.getAttractionNameTags(attractionName);
-        model.addAttribute("attractionByName", attractionName);
-        model.addAttribute("attractions", attractionTags);
+    public String getAttractionNameTags(Model model, @PathVariable String name) throws TouristAttractionNotFoundException {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        List<Tags> attractionTags = touristService.getAttractionNameTags(attraction);
+        model.addAttribute("attractionByName", attraction);
+        model.addAttribute("attractionTags", attractionTags);
         return "tags";
     }
 
     @GetMapping("{name}/edit")
-    public String getAttractionsNameEdit(Model model, @PathVariable String name) {
-        TouristAttraction attractionByName = touristService.getAttractionByName(name);
-        model.addAttribute("attractionByName", attractionByName);
+    public String getAttractionsNameEdit(Model model, @PathVariable String name) throws  TouristAttractionNotFoundException {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        model.addAttribute("attractionByName", attraction);
         model.addAttribute("optionTags", touristService.getOptionTags());
         model.addAttribute("optionCities", touristService.getOptionCities());
         return "updateAttraction";
@@ -73,7 +74,7 @@ public class TouristController {
     }
 
     @PostMapping("/{name}/delete")
-    public String deleteAttraction(@PathVariable String name) {
+    public String deleteAttraction(@PathVariable String name) throws TouristAttractionNotFoundException {
         touristService.deleteAttractionByName(name);
         return "redirect:/attractions";
     }

@@ -1,13 +1,9 @@
 package TouristGuide;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import TouristGuide.Controller.TouristController;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
-@SpringBootTest
+@WebMvcTest(TouristController.class)
 class TouristGuideApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
 
 }

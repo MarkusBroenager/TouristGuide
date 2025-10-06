@@ -1,51 +1,89 @@
 package TouristGuide.Repository;
 
+import TouristGuide.Exceptions.TouristAttractionNotFoundException;
 import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TouristRepository {
-    List<TouristAttraction> TAList = new ArrayList<>();
-    List<TouristAttraction> toRemove = new ArrayList<>();
+    @Value("${spring.datasource.url}")
+    private String dbURL;
 
-    public TouristRepository () {
-        TouristAttraction TA1 = new TouristAttraction("Water Park", "Fun with Water", Cities.Glostrup, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
-        TouristAttraction TA2 = new TouristAttraction("Amusement Park", "Fun with Roller coasters", Cities.Copenhagen, List.of(Tags.Adult, Tags.Children, Tags.Entertainment, Tags.Active));
-        TouristAttraction TA3 = new TouristAttraction("Museum", "Enjoy the Culture", Cities.Copenhagen, List.of(Tags.Adult, Tags.Culture));
-        TouristAttraction TA4 = new TouristAttraction("Royal Garden", "Enjoy the Beauty",Cities.Copenhagen , List.of(Tags.Adult, Tags.Children, Tags.Culture));
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
 
-        TAList.add(TA1);
-        TAList.add(TA2);
-        TAList.add(TA3);
-        TAList.add(TA4);
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<TouristAttraction> rowMapper = (rs, rowNum) -> {
+        TouristAttraction attraction = new TouristAttraction();
+        attraction.setName(rs.getString("Name"));
+        attraction.setDescription(rs.getString("Description"));
+        attraction.setCity(Cities.valueOf(rs.getString("City")));
+        // Make list, then for tagString in tags { toTagType(tagString); }
+        attraction.setTags(Arrays.stream(rs.getString("Tags").split(", ")).map(Tags::valueOf).collect(Collectors.toList()));
+        return attraction;
+    };
+
+    public TouristRepository (JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<TouristAttraction> getAttractions () {
-        return TAList;
+        return jdbcTemplate.query("SELECT * FROM TouristAttractionView", rowMapper);
     }
 
     public List<Tags> getAttractionNameTags(TouristAttraction touristAttraction) {
-        List<Tags> attractionTags = touristAttraction.getTags();
-        return attractionTags;
+        return touristAttraction.getTags();
     }
 
-    public TouristAttraction getAttractionByName(String name) {
-        TouristAttraction touristAttraction = null;
-        for (int i = 0; i < TAList.size(); i++) {
-            if (name.equals(TAList.get(i).getName())) {
-                touristAttraction = TAList.get(i);
+    public TouristAttraction getAttractionByName(String name) throws TouristAttractionNotFoundException {
+        for (TouristAttraction attraction : getAttractions()) {
+            if (name.equals(attraction.getName())) {
+                return attraction;
             }
         }
-        return touristAttraction;
+
+        return null;
     }
 
     public void addAttraction (TouristAttraction touristAttraction) {
-        TAList.add(touristAttraction);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(con -> {PreparedStatement ps = con.prepareStatement("INSERT IGNORE INTO TouristAttractions (CityName, Name, Description) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, touristAttraction.getCity().toString());
+            ps.setString(2, touristAttraction.getName());
+            ps.setString(3, touristAttraction.getDescription());
+            return ps;}, keyHolder);
+        int idOfInsertedAttraction = 0;
+
+        try {
+            idOfInsertedAttraction = keyHolder.getKey().intValue();
+        } catch (NullPointerException npe) {
+            return; // Skip the rest, nothing was inserted.
+        } // id should be correct if we make it to this point.
+
+        jdbcTemplate.update("INSERT IGNORE INTO Cities (Name) VALUES (?)", touristAttraction.getCity().toString());
+
+        for (Tags tag : touristAttraction.getTags()) {
+            jdbcTemplate.update("INSERT IGNORE INTO Tags (Name) VALUES (?)", tag.toString());
+            jdbcTemplate.update("INSERT IGNORE INTO AttractionTags (TagName, AttractionID) VALUES (?, ?)", tag.toString(), idOfInsertedAttraction);
+        }
     }
 
     public List<Cities> getOptionCities () {
@@ -56,24 +94,20 @@ public class TouristRepository {
         return List.of(Tags.values());
     }
 
-    public  TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
-        for (TouristAttraction attraction: TAList) {
-            if (attraction.getName().equals(touristAttraction.getName())) {
-                attraction.setDescription(touristAttraction.getDescription());
-                attraction.setCity(touristAttraction.getCity());
-                attraction.setTags(touristAttraction.getTags());
-            }
+    public void updateTouristAttraction (TouristAttraction touristAttraction) {
+        int touristAttractionID = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, touristAttraction.getName());
+        jdbcTemplate.update("UPDATE TouristAttractions SET CityName = ?, Name = ?, Description = ?", touristAttraction.getCity().toString(), touristAttraction.getName(), touristAttraction.getDescription());
+
+        jdbcTemplate.update("DELETE FROM AttractionTags WHERE AttractionID = ?", touristAttractionID);
+        // Assuming you can't add new tags through the form.
+        for (Tags tag : touristAttraction.getTags()) { // Update the tags
+            jdbcTemplate.update("INSERT INTO AttractionTags (TagName, AttractionID) VALUES (?, ?)", tag.toString(), touristAttractionID);
         }
-        return touristAttraction;
     }
 
     public void deleteAttractionByName (String name) {
-        for (TouristAttraction attraction: TAList) {
-            if (name.equals(attraction.getName())) {
-                toRemove.add(attraction);
-            }
-        }
-        TAList.removeAll(toRemove);
+        int deletedKey = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, name);
+        jdbcTemplate.update("DELETE FROM TouristAttractions WHERE ID = ?", deletedKey);
+        // AttractionTags set to CASCADE on delete, so no need to delete explicitly.
     }
-
 }

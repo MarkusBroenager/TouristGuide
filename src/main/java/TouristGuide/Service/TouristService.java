@@ -1,5 +1,6 @@
 package TouristGuide.Service;
 
+import TouristGuide.Exceptions.TouristAttractionNotFoundException;
 import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
@@ -20,8 +21,14 @@ public class TouristService {
         return touristRepository.getAttractions();
     }
 
-    public TouristAttraction getAttractionByName (String name) {
-        return touristRepository.getAttractionByName(name);
+    public TouristAttraction getAttractionByName (String name) throws TouristAttractionNotFoundException {
+        TouristAttraction attraction =  touristRepository.getAttractionByName(name);
+
+        if (attraction == null) {
+            throw new TouristAttractionNotFoundException("Attraction \"" + name + "\" not found.");
+        }
+
+        return attraction;
     }
 
     public List<Tags> getAttractionNameTags (TouristAttraction touristAttraction) {
@@ -41,8 +48,8 @@ public class TouristService {
         return touristRepository.getOptionTags();
     }
 
-    public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
-        return touristRepository.updateTouristAttraction(touristAttraction);
+    public void updateTouristAttraction (TouristAttraction touristAttraction) {
+        touristRepository.updateTouristAttraction(touristAttraction);
     }
 
     public void deleteAttractionByName (String name) {

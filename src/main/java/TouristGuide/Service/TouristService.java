@@ -48,8 +48,8 @@ public class TouristService {
         return touristRepository.getOptionTags();
     }
 
-    public TouristAttraction updateTouristAttraction (TouristAttraction touristAttraction) {
-        return touristRepository.updateTouristAttraction(touristAttraction);
+    public void updateTouristAttraction (TouristAttraction touristAttraction) {
+        touristRepository.updateTouristAttraction(touristAttraction);
     }
 
     public void deleteAttractionByName (String name) {

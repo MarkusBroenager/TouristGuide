@@ -3,35 +3,42 @@
 <head>
     <link th:href="@{/main.css}" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="'Redigér ' + ${attractionByName.name}"></title>
 </head>
 <body>
 
-<form th:action="@{/attractions/update}" th:object="${attractionByName}"  method="post">
-    <h1>Opdater turistattraktion</h1>
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <input type="hidden" th:field="*{name}">
+<main>
+    <h1 th:text="'Redigér ' + ${attractionByName.name}"></h1>
+    <form th:action="@{/attractions/update}" th:object="${attractionByName}"  method="post">
+        <fieldset>
+            <input id="name" type="hidden" th:field="*{name}">
 
-    <label for="description">Beskrivelse</label>
-    <input type="text" id="description" th:field="*{description}" required>
+            <label for="description">Beskrivelse</label>
+            <input id="description" th:field="*{description}" th:value="${description}">
 
-    <label for="city">By</label>
-    <select name="city" id="city" th:field="*{city}">
-        <option value="">--Please select--</option>
-        <option th:each="type : ${optionCities}" th:value="${type}" th:text="${type}"></option>
-    </select>
+            <label for="city">By</label>
+            <select name="city" id="city" th:field="*{city}">
+                <option value="">--Vælg venligst--</option>
+                <option th:each="type : ${optionCities}" th:value="${type}" th:text="${type}">Glostrup</option>
+            </select>
 
-    <label for="tags">Tags</label>
-    <fieldset id="tags">
-        <div th:each="option : ${optionTags}">
-            <label>
-                <input type="checkbox" th:field="*{tags}" th:value="${option}"/>
-            </label>
-        </div>
-    </fieldset>
+            <fieldset id="tags">
+                <label for="tags">Tags</label>
+                <div th:each="option, iter : ${optionTags}">
+                    <input type="checkbox" th:id="${'tag-' + iter.index}" th:field="*{tags}" th:value="${option}" th:checked="${attractionByName.tags.contains(option)}"/>
+                    <label th:for="${'tag-' + iter.index}" th:text="${option.name()}"></label>
+                </div>
+            </fieldset>
 
-    <button type="submit">Opdater</button>
-    <a th:href="@{/attractions}">Fortryd</a>
-</form>
+            <button type="submit">Opret</button>
+            <a th:href="@{/attractions}">Fortryd</a>
+        </fieldset>
+    </form>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

@@ -3,22 +3,24 @@
 <head>
     <link th:href="@{/main.css}" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${attractionByName.name}"></title>
 </head>
 <body>
 
-<form th:action="@{'/attractions/' + ${attractionByName.name} + '/delete'}" th:object="${attractionByName}"  method="post">
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <input type="hidden" th:field="*{name}">
+<main>
+    <form th:action="@{'/attractions/' + ${attractionByName.name} + '/delete'}" th:object="${attractionByName}"  method="post">
+        <input type="hidden" th:field="*{name}">
+        <h1 th:text="${attractionByName.name}"></h1>
+        <h2 th:text="${attractionByName.description}"></h2>
+            <button type="submit">Slet</button>
+        <a th:href="@{'/attractions/' + ${attractionByName.name} + '/tags'}">Tags</a>
+        <a href="/">Hovedside</a>
+    </form>
+</main>
 
-<h1 th:text="${attractionByName.name}"></h1>
-<h2 th:text="${attractionByName.description}"></h2>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    <button type="submit">Slet</button>
-
-<a th:href="@{'/attractions/' + ${attractionByName.name} + '/tags'}">Tags</a>
-<a href="/">Hovedside</a>
-
-</form>
 </body>
 </html>

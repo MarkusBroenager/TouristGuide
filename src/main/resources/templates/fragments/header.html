@@ -1,0 +1,17 @@
+<div th:fragment="header">
+    <div class="nav-wrapper">
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-list-item">
+                    <button class="btn" type="button" th:onclick="|location.href='@{/}'|">Hjem</button>
+                </li>
+                <li class="nav-list-item">
+                    <button class="btn" type="button" th:onclick="|location.href='@{/attractions}'|">Alle attraktioner</button>
+                </li>
+                <li class="nav-list-item">
+                    <button class="btn" type="button" th:onclick="|location.href='@{/attractions/Museum}'|">Se Museum</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

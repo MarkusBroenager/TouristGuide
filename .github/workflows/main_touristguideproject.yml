@@ -25,7 +25,16 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-        run: mvn clean install
+        env: 
+          DEV_DATABASE_URL: ${{secrets.DEV_DATABASE_URL}}
+          DEV_DATABASE_USERNAME: ${{secrets.DEV_DATABASE_USERNAME}}
+          DEV_DATABASE_PASSWORD: ${{secrets.DEV_DATABASE_PASSWORD}}
+        run: mvn clean install -DskipTests=false
+
+      - name: Test
+        run: mvn test
+        env:
+          SPRING_PROFILES_ACTIVE: test
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -60,4 +69,5 @@ jobs:
           app-name: 'TouristGuideProject'
           slot-name: 'Production'
           package: '*.jar'
+
           

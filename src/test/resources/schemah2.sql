@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS TouristAttractionView;
 DROP TABLE IF EXISTS AttractionTags;
 DROP TABLE IF EXISTS TouristAttractions;
 DROP TABLE IF EXISTS Tags;

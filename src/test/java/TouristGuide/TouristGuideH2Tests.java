@@ -19,9 +19,6 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestPropertySource(properties = {
-        "spring.sql.init.mode=never"
-})
 @Sql(scripts = { "classpath:schemah2.sql", "classpath:datah2.sql"}, executionPhase = BEFORE_TEST_METHOD)
 
 class PersonRepositoryTest {
@@ -30,7 +27,6 @@ class PersonRepositoryTest {
     private TouristRepository repo;
 
     @Test
-    //Virker kun hvis man kører testen selvstændigt
     void readAll() {
         List<TouristAttraction> all = repo.getAttractions();
 

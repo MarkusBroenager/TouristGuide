@@ -1,6 +1,4 @@
-USE Touristguide;
-
-INSERT INTO Cities (Name) VALUES 
+INSERT INTO Cities (Name) VALUES
 	("Copenhagen"), ("Glostrup");
 
 INSERT INTO Tags (Name) VALUES 

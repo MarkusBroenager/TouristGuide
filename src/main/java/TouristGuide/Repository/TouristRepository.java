@@ -29,7 +29,7 @@ public class TouristRepository {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
-    private final JdbcTemplate jdbcTemplate;
+    protected final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<TouristAttraction> rowMapper = (rs, rowNum) -> {
         TouristAttraction attraction = new TouristAttraction();

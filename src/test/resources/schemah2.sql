@@ -23,7 +23,7 @@ CREATE TABLE TouristAttractions (
 CREATE TABLE AttractionTags (
                                 AttractionID INT,
                                 TagName VARCHAR(255),
-                                FOREIGN KEY (AttractionID) REFERENCES TouristAttractions(ID),
+                                FOREIGN KEY (AttractionID) REFERENCES TouristAttractions(ID) ON DELETE CASCADE,
                                 FOREIGN KEY (TagName) REFERENCES Tags(Name)
 );
 

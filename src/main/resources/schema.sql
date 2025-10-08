@@ -1,4 +1,4 @@
-DROP SCHEMA IF EXISTS Touristguide CASCADE;
+DROP SCHEMA IF EXISTS Touristguide;
 CREATE SCHEMA IF NOT EXISTS Touristguide;
 USE Touristguide;
 

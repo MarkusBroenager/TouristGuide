@@ -1,6 +1,5 @@
 package TouristGuide;
 
-import TouristGuide.Exceptions.TouristAttractionNotFoundException;
 import TouristGuide.Model.Cities;
 import TouristGuide.Model.Tags;
 import TouristGuide.Model.TouristAttraction;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @ActiveProfiles("test")
 @Sql(scripts = { "classpath:schemah2.sql", "classpath:datah2.sql"}, executionPhase = BEFORE_TEST_METHOD)
 
-class PersonRepositoryTest {
+class TouristRepositoryTest {
 
     @Autowired
     private TouristRepository repo;
@@ -164,4 +162,23 @@ class PersonRepositoryTest {
 
         assertThrows(EmptyResultDataAccessException.class, () -> {repo.updateTouristAttraction(wpNew); });
     }
+    @Test
+    void deleteAttractionByName() {
+        TouristAttraction attraction = new TouristAttraction(
+                "Temp",
+                "Slet mig",
+                Cities.Copenhagen,
+                List.of(Tags.Entertainment)
+        );
+        repo.addAttraction(attraction);
+
+        TouristAttraction added = repo.getAttractionByName("Temp");
+        assertThat(added).isNotNull();
+
+        repo.deleteAttractionByName("Temp");
+
+        TouristAttraction deleted = repo.getAttractionByName("Temp");
+        assertThat(deleted).isNull();
+    }
+
 }

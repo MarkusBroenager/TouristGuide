@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +69,7 @@ public class TouristRepository {
             ps.setString(2, touristAttraction.getName());
             ps.setString(3, touristAttraction.getDescription());
             return ps;}, keyHolder);
-        int idOfInsertedAttraction = 0;
+        int idOfInsertedAttraction;
 
         try {
             idOfInsertedAttraction = keyHolder.getKey().intValue();
@@ -95,7 +94,7 @@ public class TouristRepository {
     }
 
     public void updateTouristAttraction (TouristAttraction touristAttraction) throws TouristAttractionNotFoundException {
-        int touristAttractionID = -1;
+        int touristAttractionID;
 
         try {
             touristAttractionID = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, touristAttraction.getName());
@@ -114,7 +113,14 @@ public class TouristRepository {
     }
 
     public void deleteAttractionByName (String name) {
-        int deletedKey = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, name);
+        int deletedKey;
+
+        try {
+            deletedKey = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, name);
+        } catch (NullPointerException npe) {
+            throw new TouristAttractionNotFoundException("Attraction \"" + name + "\" not found.");
+        }
+
         jdbcTemplate.update("DELETE FROM TouristAttractions WHERE ID = ?", deletedKey);
         // AttractionTags set to CASCADE on delete, so no need to delete explicitly.
     }

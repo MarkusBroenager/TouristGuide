@@ -94,8 +94,16 @@ public class TouristRepository {
         return List.of(Tags.values());
     }
 
-    public void updateTouristAttraction (TouristAttraction touristAttraction) {
-        int touristAttractionID = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, touristAttraction.getName());
+    public void updateTouristAttraction (TouristAttraction touristAttraction) throws TouristAttractionNotFoundException {
+        int touristAttractionID = -1;
+
+        try {
+            touristAttractionID = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, touristAttraction.getName());
+        } catch (NullPointerException npe) {
+            throw new TouristAttractionNotFoundException("Attraction \"" + touristAttraction.getName() + "\" not found.");
+        }
+
+
         jdbcTemplate.update("UPDATE TouristAttractions SET CityName = ?, Name = ?, Description = ? WHERE ID = ?", touristAttraction.getCity().toString(), touristAttraction.getName(), touristAttraction.getDescription(), touristAttractionID);
 
         jdbcTemplate.update("DELETE FROM AttractionTags WHERE AttractionID = ?", touristAttractionID);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
@@ -70,6 +71,23 @@ class PersonRepositoryTest {
         assertThat(readBack.getDescription()).isEqualTo("Der er mange sjove rutsjebaner");
         assertThat(readBack.getCity()).isEqualTo(Cities.Copenhagen);
         assertThat(readBack.getTags()).containsExactlyInAnyOrder(Tags.Active, Tags.Entertainment);
+    }
+
+    @Test
+    void getByNameOnExistingAttractionWorks() {
+        TouristAttraction museum = new TouristAttraction(
+                "Museum",
+                "Enjoy the culture",
+                Cities.Copenhagen,
+                List.of(Tags.Adult, Tags.Culture));
+        TouristAttraction museumFromDB = repo.getAttractionByName("Museum");
+
+        assertThat(museum.equals(museumFromDB));
+    }
+
+    @Test
+    void getByNameOnNonExistentAttractionReturnsNull() {
+        assertEquals(null, repo.getAttractionByName("Museo"));
     }
 
     @Test

@@ -3,33 +3,40 @@
 <head>
     <link th:href="@{/main.css}" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Turistattraktioner</title>
 </head>
 <body>
 
-<h1>Turistattraktioner</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Navn</th>
-        <th>Beskrivelse</th>
-        <th>By</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="touristattraction: ${attractions}">
-        <td th:text="${touristattraction.name}"></td>
-        <td th:text="${touristattraction.description}"></td>
-        <td th:text="${touristattraction.city}"></td>
+<div th:replace="~{fragments/header :: header}"></div>
 
-        <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/edit'}">Opdater</a></td>
-        <td><a th:href="@{'/attractions/' + ${touristattraction.name}}">Slet på næste side</a></td>
-        <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/tags'}">Tags</a></td>
+<main>
+    <h1>Turistattraktioner</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Beskrivelse</th>
+            <th>By</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="touristattraction: ${attractions}">
+            <td th:text="${touristattraction.name}"></td>
+            <td th:text="${touristattraction.description}"></td>
+            <td th:text="${touristattraction.city}"></td>
 
-    </tr>
-    </tbody>
-</table>
-<a href="/attractions/add">Tilføj attraktion</a>
-<a href="/">Hovedside</a>
+            <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/edit'}">Opdater</a></td>
+            <td><a th:href="@{'/attractions/' + ${touristattraction.name}}">Slet på næste side</a></td>
+            <td><a th:href="@{'/attractions/' + ${touristattraction.name} + '/tags'}">Tags</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <a href="/attractions/add">Tilføj attraktion</a>
+    <a href="/">Hovedside</a>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

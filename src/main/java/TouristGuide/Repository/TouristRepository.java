@@ -96,7 +96,7 @@ public class TouristRepository {
 
     public void updateTouristAttraction (TouristAttraction touristAttraction) {
         int touristAttractionID = jdbcTemplate.queryForObject("SELECT ID FROM TouristAttractions WHERE Name = ?", Integer.class, touristAttraction.getName());
-        jdbcTemplate.update("UPDATE TouristAttractions SET CityName = ?, Name = ?, Description = ?", touristAttraction.getCity().toString(), touristAttraction.getName(), touristAttraction.getDescription());
+        jdbcTemplate.update("UPDATE TouristAttractions SET CityName = ?, Name = ?, Description = ? WHERE ID = ?", touristAttraction.getCity().toString(), touristAttraction.getName(), touristAttraction.getDescription(), touristAttractionID);
 
         jdbcTemplate.update("DELETE FROM AttractionTags WHERE AttractionID = ?", touristAttractionID);
         // Assuming you can't add new tags through the form.

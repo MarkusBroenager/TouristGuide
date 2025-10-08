@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <h1>Turist Guide</h1>
+
+    <p> Danmark </p>
+    <p>En guide der beskriver fire turist attraktioner i Danmark</p>
+
+    <h2>Links:</h2>
+
+    <nav>
+        <ul class="navbar">
+            <li><a href="/attractions">Attraktioner overordnet</a></li>
+            <li><a href="/attractions/Water Park">Vand park</a></li>
+            <li><a href="/attractions/Amusement Park">Forlystelses park</a></li>
+            <li><a href="/attractions/Museum">Museum</a></li>
+            <li><a href="/attractions/Royal Garden">Royal have</a></li>
+        </ul>
+    </nav>
+
+    <p>Galleri</p>
+    <img th:src="@{Vand park.jpg}" width="300" height="200" alt="Vand Park">
+    <img th:src="@{Tivoli.jpg}" width="300" height="200" alt="Tivoli">
+    <img th:src="@{Museum.jpg}" width="300" height="200" alt="Museum">
+    <img th:src="@{Royal Have.jpg}" width="300" height="200" alt="Royal Have">
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

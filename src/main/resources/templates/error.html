@@ -3,9 +3,17 @@
 <head>
     <link th:href="@{/main.css}" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Error!</title>
+    <title>Fejl!</title>
 </head>
 <body>
-    <h1 th:text="${statusCode} + ' error: '"></h1>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <h1 th:text="${statusCode} + ' fejl: '"></h1>
     <p th:text="${message}"></p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>

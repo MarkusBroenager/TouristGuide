@@ -3,22 +3,30 @@
 <head>
     <link th:href="@{/main.css}" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tags</title>
 </head>
 <body>
-<h1 th:text="${attractionByName.name}"></h1>
-<table>
-    <thead>
-    <tr>
-        <th>Tags</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="tag: ${attractionTags}">
-        <td th:text="${tag}"></td>
-    </tr>
-    </tbody>
-</table>
-<a th:href="@{/attractions}">Fortryd</a>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <h1 th:text="${attractionByName.name}"></h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Tags</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tag: ${attractionTags}">
+            <td th:text="${tag}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/attractions}">Fortryd</a>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>
